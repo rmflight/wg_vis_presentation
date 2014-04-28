@@ -96,3 +96,7 @@ ggplot(metabData, aes(x=value, fill=treat)) + geom_density(alpha=0.8) + facet_gr
 ggplot(metabData, aes(x=value, fill=Species)) + geom_density(alpha=0.8) + facet_grid(treat ~ ., scales="free_y") + xlim(0, 5000)
 ```
 
+```{r plotAll}
+ggplot(metabData, aes(x=metabName, y=value, fill=Species)) + geom_boxplot()
+```
+

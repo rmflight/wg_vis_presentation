@@ -75,7 +75,7 @@ ggplot(varData2, aes(x=value)) + geom_bar() + facet_grid(sample ~ variable)
 ## With Metabolomics Data
 
 ```{r loadData}
-metabData <- read.table("Winter 2014 LC-MS and Statistics Course/Data/Pumpkin and Tomatillo Data.csv",
+metabData <- read.table("pumpkin_tomatillo_data.csv",
                         sep=",", header=T, stringsAsFactors=FALSE)
 colnames(metabData)[4:151] <- seq(1, 148)
 

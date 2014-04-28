@@ -1,0 +1,88 @@
+# Visualization WG: ggplot, cytoscape, matplotlib
+
+Metabolomics data is from [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
+
+## Why R, ggplot2
+
+`R` is useful because of the various statistical utilities available. `R` has a set of base graphics utilities that allow one to do various types of plots. As an example, we can create a scatterplot of two variables:
+
+```{r scatter2}
+var1 <- rnorm(100)
+var2 <- rnorm(100, 1)
+plot(var1, var2)
+```
+
+Or do a histogram of one of the variables:
+
+```{r histogram}
+hist(var1)
+hist(var2)
+```
+
+But doing much else in base graphics can get rather tedious and difficult, especially when you want multiple plots.
+
+As a simple example, lets imagine that we have two replicates of each variable that we want to examine.
+
+```{r tworeps}
+varData <- data.frame(var1=c(rnorm(100), rnorm(100)), var2=c(rnorm(100, 1), rnorm(100,1)), sample=rep(c(1,2), each=100))
+```
+
+Using base graphics, we can easily plot the two variables against each other:
+
+```{r plotRepsBase}
+plot(varData$var1, varData$var2)
+```
+
+But if we want to do it by sample, things quickly get more complicated:
+
+```{r plotRepsBasebySample}
+plot(varData$var1[varData$sample==1], varData$var2[varData$sample==1], col="blue")
+points(varData$var1[varData$sample==2], varData$var2[varData$sample==2], col="red")
+```
+
+We are no longer using the base `plot` command, but a sub-part of it. And plumbing it's depths quickly becomes tedious.
+
+## GGPlot2
+
+Enter `ggplot2`. It is an `R` implementation of the [*grammar of graphics*](http://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448). To better understand it's design and how it treats entries and variables, I would read Hadley Wickham's [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf).
+
+In `ggplot2`, our previous graph becomes rather trivial.
+
+```{r plotRepsSampleGGplot}
+library(ggplot2)
+varData$sample <- factor(varData$sample)
+ggplot(varData, aes(x=var1, y=var2, colour=sample)) + geom_point()
+ggplot(varData, aes(x=var1, y=var2)) + geom_point() + facet_grid(. ~ sample)
+```
+
+In it's current form, we can easily plot summary histograms of each variable:
+
+```{r plotHistggplot}
+ggplot(varData, aes(x=var1, fill=sample)) + geom_bar(position="identity", alpha=0.5)
+ggplot(varData, aes(x=var1, fill=sample)) + geom_density(alpha=0.5)
+```
+
+If we want to do a bigger overview of summary statistics, we can just reshape our data a little bit:
+
+```{r plotSummary}
+library(reshape2)
+varData2 <- melt(varData, measure.vars=c("var1", "var2"))
+
+ggplot(varData2, aes(x=value, fill=sample)) + geom_bar(position="identity", alpha=0.5) + facet_grid(. ~ variable)
+ggplot(varData2, aes(x=value)) + geom_bar() + facet_grid(sample ~ variable)
+```
+
+## With Metabolomics Data
+
+```{r loadData}
+metabData <- read.table("Winter 2014 LC-MS and Statistics Course/Data/Pumpkin and Tomatillo Data.csv",
+                        sep=",", header=T, stringsAsFactors=FALSE)
+colnames(metabData)[4:151] <- seq(1, 148)
+
+metab2 <- melt(metabData, id.vars=seq(1,3), measure.vars=seq(4, 151))
+varNameData <- read.table("metabID.csv", sep=",", header=T, stringsAsFactors=FALSE)
+
+metab2$metabName <- rep(varNameData$name, each=24)
+metabData <- metab2
+```
+

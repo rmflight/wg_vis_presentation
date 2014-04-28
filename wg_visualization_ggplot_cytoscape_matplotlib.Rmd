@@ -84,5 +84,15 @@ varNameData <- read.table("metabID.csv", sep=",", header=T, stringsAsFactors=FAL
 
 metab2$metabName <- rep(varNameData$name, each=24)
 metabData <- metab2
+newTreat <- rep("fresh", nrow(metabData))
+newTreat[grep("lyophilized", metabData$Treatment)] <- "lyoph"
+metabData$treat <- newTreat
+```
+
+Let's summarize the values for each type of sample.
+
+```{r viewData}
+ggplot(metabData, aes(x=value, fill=treat)) + geom_density(alpha=0.8) + facet_grid(Species ~ ., scales="free_y") + xlim(0, 5000)
+ggplot(metabData, aes(x=value, fill=Species)) + geom_density(alpha=0.8) + facet_grid(treat ~ ., scales="free_y") + xlim(0, 5000)
 ```
 

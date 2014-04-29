@@ -60,6 +60,7 @@ In it's current form, we can easily plot summary histograms of each variable:
 ```{r plotHistggplot}
 ggplot(varData, aes(x=var1, fill=sample)) + geom_bar(position="identity", alpha=0.5)
 ggplot(varData, aes(x=var1, fill=sample)) + geom_density(alpha=0.5)
+ggplot(varData, aes(x=var1)) + geom_bar() + facet_grid(sample ~ .)
 ```
 
 If we want to do a bigger overview of summary statistics, we can just reshape our data a little bit:
@@ -96,7 +97,33 @@ ggplot(metabData, aes(x=value, fill=treat)) + geom_density(alpha=0.8) + facet_gr
 ggplot(metabData, aes(x=value, fill=Species)) + geom_density(alpha=0.8) + facet_grid(treat ~ ., scales="free_y") + xlim(0, 5000)
 ```
 
+We can also do the boxplot for all the metabolites, with a separate box for each species.
+
 ```{r plotAll}
 ggplot(metabData, aes(x=metabName, y=value, fill=Species)) + geom_boxplot()
 ```
+
+This is not that easily to decipher, but it was quite easy to do.
+
+
+Based on the analysis presented in the tutorial, we can pick out some of the top changers:
+
+```{r topChangers}
+topChangers <- c(34, 62, 8, 17, 124, 100, 115, 9, 93, 123, 75, 71, 85, 33)
+metabTop <- metabData[(metabData$variable %in% topChangers),]
+ggplot(metabTop, aes(x=metabName, y=value, fill=Species)) + geom_boxplot()
+ggplot(metabTop, aes(x=metabName, y=value, fill=Species)) + geom_boxplot() + scale_y_log10()
+```
+
+Finally, what is also quite nice about using `ggplot2` is the ability to add incrementally to a graph. In our previous example, we could have achieved the same result piecemeal like this:
+
+```{r topChangersPiecemeal}
+g <- ggplot(metabTop, aes(x=metabName, y=value, fill=Species)) + geom_boxplot()
+print(g)
+g + scale_y_log10()
+```
+
+
+
+# Networks
 

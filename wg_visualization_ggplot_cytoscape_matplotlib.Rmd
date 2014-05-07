@@ -1,6 +1,6 @@
 # Visualization WG: ggplot, cytoscape, matplotlib
 
-Metabolomics data is from [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
+Metabolomics data and networks are courtesy of Dmitry Grapov's [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
 
 ## Why R, ggplot2
 
@@ -128,7 +128,5 @@ g + scale_y_log10()
 ```
 
 
-
 # Networks
 
-this is a change

@@ -188,3 +188,19 @@ for (useAttr in c("name", "direction", "sig.dir", "size.FC", "size.log.FC", "siz
 }
 ```
 
+Now that we've added all the nitty gritty details to our network, we can pass it to Cytoscape and start doing some visualization.
+
+```{r loadCytoscape}
+library(RCytoscape)
+cw <- new.CytoscapeWindow("metabolite similarity", graph=metabNetwork)
+displayGraph(cw)
+```
+
+Not much to look at yet, we have to tell `Cytoscape` to layout the network.
+
+```{r}
+setLayoutProperties(cw, 'force-directed', list(edge_attribute='weight'))
+layoutNetwork(cw, 'force-directed')
+```
+
+As it stands, we can't get a whole lot of information yet from this network. But lets start adding some visual properties to it and see what happens.

@@ -50,9 +50,9 @@ We are no longer using the base `plot` command, but a sub-part of it. And plumbi
 
 ## GGPlot2
 
-Enter `ggplot2`. It is an `R` implementation of the [*grammar of graphics*](http://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448). To better understand it's design and how it treats entries and variables, I would read Hadley Wickham's [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf).
+Enter [`ggplot2`](http://ggplot2.org/). It is an `R` implementation of the [*grammar of graphics*](http://www.amazon.com/Grammar-Graphics-Statistics-Computing/dp/0387245448). To better understand it's design and how it treats entries and variables, I recommend reading Hadley Wickham's [Tidy Data](http://vita.had.co.nz/papers/tidy-data.pdf) manuscript.
 
-In `ggplot2`, our previous graph becomes rather trivial.
+Using `ggplot2`, our previous graph becomes rather trivial.
 
 ```{r plotRepsSampleGGplot}
 library(ggplot2)

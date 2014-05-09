@@ -204,3 +204,58 @@ layoutNetwork(cw, 'force-directed')
 ```
 
 As it stands, we can't get a whole lot of information yet from this network. But lets start adding some visual properties to it and see what happens.
+
+## Edges
+
+Lets change the edge visuals based on the source. Maybe black for KEGG (biochemical) and gray for Tanimoto (similarity)?
+
+```{r changeEdgeColors}
+edgeColors <- c('#000000', '#999999')
+setEdgeColorRule(cw, 'source', c('KEGG', 'Tanimoto'), edgeColors, mode='lookup')
+redraw(cw)
+```
+
+So now we can see that most of the edges are from the similarity measure.
+
+## Nodes
+
+### Colors
+
+We have metabolites that have changes either in the up or down direction. It would be nice to at a glance see which is which.
+
+```{r changeNodeColors}
+nodeColors <- c('#99FF00', '#FF9900')
+setNodeColorRule(cw, 'direction', c('increase', 'decrease'), nodeColors, mode='lookup')
+redraw(cw)
+```
+
+### Display Labels
+
+Currently, we have to select a node to see it's metabolite name. We can use something else as the display label.
+
+```{r changeLabel}
+setNodeLabelRule(cw, 'name')
+redraw(cw)
+```
+
+
+## Select Nodes and Neighbors
+
+We can select nodes based on particular properties in our original data.
+
+```{r selectHiFC}
+hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
+selectNodes(cw, hiFCNodes)
+selectFirstNeighborsOfSelectedNodes(cw)
+hiFCNodesNeighbors <- getSelectedNodes(cw)
+hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors,]
+```
+
+## Graph Properties
+
+We can also use other `R` packages like `igraph` to analyze our network, and add that information to our graph in `Cytoscape`.
+
+```{r graphNeighborhood}
+library(igraph)
+```
+

@@ -1,4 +1,10 @@
-# Visualization WG: ggplot, cytoscape, matplotlib
+# A Review of R, Cytoscape and Python Integration for Data Visualization and Exploration
+
+[`R`](http://cran.r-project.org/) is a popular data analysis and visualization environment, with a large number of user contributed packages, and the ability for interested individuals to easily contribute their own packages. 
+
+[`Cytoscape`](cytoscape.org) is a popular network visualization software.
+
+[`Python`](python.org) is an alternative popular data analysis environment.
 
 Metabolomics data and networks are courtesy of Dmitry Grapov's [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
 

@@ -257,5 +257,27 @@ We can also use other `R` packages like `igraph` to analyze our network, and add
 
 ```{r graphNeighborhood}
 library(igraph)
+
+tmpNetwork <- metabNetwork
+edgeDataDefaults(tmpNetwork, "source") <- NULL
+edgeDataDefaults(tmpNetwork, "weight") <- NULL
+nodeData(tmpNetwork, nodes(tmpNetwork), "name") <- nodes(tmpNetwork)
+igNetwork <- igraph.from.graphNEL(tmpNetwork, name=TRUE)
+igNetwork <- as.undirected(igNetwork)
+eb <- edge.betweenness.community(igNetwork)
+
+eb
 ```
 
+What does this get us? A set of communities, with each node assigned to each community. We can examine them in `Cytoscape` by doing:
+
+```{r examineCommunities}
+allComms <- split(eb$names, eb$membership)
+allComms <- allComms[order(sapply(allComms, length), decreasing=T)]
+
+
+selectNodes(cw, allComms[[1]], preserve.current.selection=FALSE)
+selectNodes(cw, allComms[[2]], preserve.current.selection=FALSE)
+selectNodes(cw, allComms[[3]], preserve.current.selection=FALSE)
+selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
+```

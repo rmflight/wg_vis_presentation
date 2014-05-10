@@ -92,6 +92,9 @@ p + stat_smooth()
 p + geom_point() + stat_smooth()
 ```
 
+### Customization
+
+We can customize just about any aspect of a plot that we want.
 
 ## With Metabolomics Data
 

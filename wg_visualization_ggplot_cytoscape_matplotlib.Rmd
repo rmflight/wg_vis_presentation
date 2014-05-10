@@ -79,7 +79,19 @@ ggplot(varData2, aes(x=value)) + geom_bar() + facet_grid(sample ~ variable)
 
 ## Layers & Customization
 
-The other major strength of `ggplot` is the ability to layer different graphical on top of each other, as well as customizing plots. 
+The other major strength of `ggplot` is the ability to layer different graphical on top of each other, as well as customizing plots.
+
+### Layers
+
+Layers are the individual plot elements that are added to a given plot. For example, we can do:
+
+```{r layers}
+p <- ggplot(varData, aes(x=var1, y=var2))
+p + geom_point()
+p + stat_smooth()
+p + geom_point() + stat_smooth()
+```
+
 
 ## With Metabolomics Data
 

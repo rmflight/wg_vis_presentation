@@ -77,9 +77,9 @@ ggplot(varData2, aes(x=value, fill=sample)) + geom_bar(position="identity", alph
 ggplot(varData2, aes(x=value)) + geom_bar() + facet_grid(sample ~ variable)
 ```
 
-## Layers
+## Layers & Customization
 
-The other major strength of `ggplot` is the ability to layer different elements on top of each other. **Expand this section**. 
+The other major strength of `ggplot` is the ability to layer different graphical on top of each other, as well as customizing plots. 
 
 ## With Metabolomics Data
 

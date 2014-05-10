@@ -6,8 +6,6 @@
 
 [`Python`](python.org) is an alternative popular data analysis environment.
 
-Metabolomics data and networks are courtesy of Dmitry Grapov's [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
-
 ## Why R, ggplot2
 
 `R` is useful because of the various statistical utilities available. `R` has a set of base graphics utilities that allow one to do various types of plots. As an example, we can create a scatterplot of two variables:
@@ -84,6 +82,8 @@ ggplot(varData2, aes(x=value)) + geom_bar() + facet_grid(sample ~ variable)
 The other major strength of `ggplot` is the ability to layer different elements on top of each other. **Expand this section**. 
 
 ## With Metabolomics Data
+
+Metabolomics and network data are courtesy of Dmitry Grapov's [Creative Data Solutions](http://imdevsoftware.wordpress.com/2014/02/17/tutorials-statistical-and-multivariate-analysis-for-metabolomics/) metabolomic tutorial.
 
 ```{r loadData}
 metabData <- read.table("pumpkin_tomatillo_data.csv",

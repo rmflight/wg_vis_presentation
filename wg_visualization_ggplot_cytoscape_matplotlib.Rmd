@@ -148,6 +148,7 @@ metabData <- metab2
 newTreat <- rep("fresh", nrow(metabData))
 newTreat[grep("lyophilized", metabData$Treatment)] <- "lyoph"
 metabData$treat <- newTreat
+head(metabData)
 ```
 
 Let's summarize the values for each type of sample.

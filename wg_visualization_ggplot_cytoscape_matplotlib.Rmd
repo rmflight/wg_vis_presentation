@@ -149,8 +149,12 @@ newTreat <- rep("fresh", nrow(metabData))
 newTreat[grep("lyophilized", metabData$Treatment)] <- "lyoph"
 metabData$treat <- newTreat
 head(metabData)
+```
+
+```{r outputData, eval=FALSE}
 write.table(metabData, file="metabolomics_reshapedData.csv", sep=",", row.names=FALSE, col.names=TRUE)
 ```
+
 
 Let's summarize the values for each type of sample.
 

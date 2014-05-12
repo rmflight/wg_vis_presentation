@@ -298,7 +298,7 @@ redraw(cw)
 
 ## Select Nodes and Neighbors
 
-We can select nodes based on particular properties in our original data.
+We can select nodes based on particular properties in our original data. Such as those nodes that had large fold-changes, and their immediate neighbors:
 
 ```{r selectHiFC}
 hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
@@ -310,7 +310,7 @@ hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors,]
 
 ## Graph Properties
 
-We can also use other `R` packages like `igraph` to analyze our network, and add that information to our graph in `Cytoscape`.
+We can also use other `R` packages like `igraph` to analyze our network, and select particular groups of nodes based on the computed properties. In this example we will analyze the network for communities of nodes:
 
 ```{r graphNeighborhood}
 library(igraph)

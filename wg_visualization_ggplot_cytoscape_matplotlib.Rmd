@@ -37,7 +37,7 @@ Using base graphics, we can easily plot the two variables against each other:
 plot(varData$var1, varData$var2)
 ```
 
-But if we want to do it by sample, things quickly get more complicated:
+But if we want to color each sample differently on the same graphic (a common enough thing), things quickly get more complicated:
 
 ```{r plotRepsBasebySample}
 plot(varData$var1[varData$sample==1], varData$var2[varData$sample==1], col="blue")
@@ -56,8 +56,14 @@ Using `ggplot2`, our previous graph becomes rather trivial.
 library(ggplot2)
 varData$sample <- factor(varData$sample)
 ggplot(varData, aes(x=var1, y=var2, colour=sample)) + geom_point()
+```
+
+We can also easily create multiple sub-plots that are broken out the by **sample** variable:
+
+```{r plotsampleOut}
 ggplot(varData, aes(x=var1, y=var2)) + geom_point() + facet_grid(. ~ sample)
 ```
+
 
 In it's current form, we can easily plot summary histograms of each variable:
 
@@ -67,7 +73,7 @@ ggplot(varData, aes(x=var1, fill=sample)) + geom_density(alpha=0.5)
 ggplot(varData, aes(x=var1)) + geom_bar() + facet_grid(sample ~ .)
 ```
 
-If we want to do a bigger overview of summary statistics, we can just reshape our data a little bit:
+If we want to do a bigger overview of summary statistics, we can just reshape our data a little bit:asdfasdf
 
 ```{r plotSummary}
 library(reshape2)
@@ -95,6 +101,29 @@ p + geom_point() + stat_smooth()
 ### Customization
 
 We can customize just about any aspect of a plot that we want.
+
+From the color of the points plotted:
+
+```{r customizePoints}
+p + geom_point(color="red")
+```
+
+To the axis labels:
+
+```{r axisLabels}
+p + geom_point() + labs(x="Important Data 1", y="Dependent Variable 1")
+```
+
+To the fonts, background, etc, or the elements of a particular `ggplot` **theme**:
+
+```{r theme}
+pPoint <- p + geom_point()
+pPoint + theme(axis.text = element_text(colour = "red"))
+pPoint + theme(axis.text = element_text(size = 14))
+pPoint + theme(axis.title = element_text(color = "blue", size = 20))
+```
+
+There are a couple of built-in themes such as `theme_bw` and `theme_classic` alongside the default, and there is also a collection of alternative themes in the [`ggthemes`](https://github.com/jrnold/ggthemes) package.
 
 ## With Metabolomics Data
 

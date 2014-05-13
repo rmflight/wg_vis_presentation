@@ -301,7 +301,36 @@ write.table(metabData, file = "metabolomics_reshapedData.csv", sep = ",", row.na
 
 
 
-Let's summarize the values for each type of sample.
+Let's summarize the values for each type of sample. We will stop at a value of **5000** because 
+
+
+```r
+ggplot(metabData, aes(x = value, fill = treat)) + geom_bar(alpha = 0.8, position = "identity") + 
+    facet_grid(Species ~ .) + xlim(0, 5000)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk viewHistograms](figure/viewHistograms1.png) 
+
+```r
+
+ggplot(metabData, aes(x = value, fill = Species)) + geom_bar(alpha = 0.8, position = "identity") + 
+    facet_grid(treat ~ .) + xlim(0, 5000)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk viewHistograms](figure/viewHistograms2.png) 
+
+
+As an alternative to histograms, `ggplot` provides smoothed density estimates that can nicely capture the **shape** of a distribution.
 
 
 ```r
@@ -316,7 +345,7 @@ ggplot(metabData, aes(x = value, fill = treat)) + geom_density(alpha = 0.8) +
 ## Warning: Removed 362 rows containing non-finite values (stat_density).
 ```
 
-![plot of chunk viewData](figure/viewData1.png) 
+![plot of chunk viewDensity](figure/viewDensity1.png) 
 
 ```r
 ggplot(metabData, aes(x = value, fill = Species)) + geom_density(alpha = 0.8) + 
@@ -330,7 +359,7 @@ ggplot(metabData, aes(x = value, fill = Species)) + geom_density(alpha = 0.8) +
 ## Warning: Removed 362 rows containing non-finite values (stat_density).
 ```
 
-![plot of chunk viewData](figure/viewData2.png) 
+![plot of chunk viewDensity](figure/viewDensity2.png) 
 
 
 We can also do the boxplot for all the metabolites, with a separate box for each species.

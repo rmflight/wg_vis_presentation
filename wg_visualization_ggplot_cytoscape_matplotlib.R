@@ -89,7 +89,13 @@ head(metabData)
 ## write.table(metabData, file="metabolomics_reshapedData.csv", sep=",", row.names=FALSE, col.names=TRUE)
 
 
-## ----viewData------------------------------------------------------------
+## ----viewHistograms------------------------------------------------------
+ggplot(metabData, aes(x=value, fill=treat)) + geom_bar(alpha=0.8, position="identity") + facet_grid(Species ~ .) + xlim(0, 5000)
+
+ggplot(metabData, aes(x=value, fill=Species)) + geom_bar(alpha=0.8, position="identity") + facet_grid(treat ~ .) + xlim(0, 5000)
+
+
+## ----viewDensity---------------------------------------------------------
 ggplot(metabData, aes(x=value, fill=treat)) + geom_density(alpha=0.8) + facet_grid(Species ~ ., scales="free_y") + xlim(0, 5000)
 ggplot(metabData, aes(x=value, fill=Species)) + geom_density(alpha=0.8) + facet_grid(treat ~ ., scales="free_y") + xlim(0, 5000)
 

@@ -389,6 +389,8 @@ Networks are very useful things in many fields, due to the fact that we can easi
 
 The network graph will be constructed in `R`, and visualized in `Cytoscape`. This gives us the flexibility to manipulate the graph easily in `R` and save groups of relevant nodes, with the visual richness and interactive flexibility of `Cytoscape`.
 
+This connection of `R` with `Cytoscape` uses the [`RCytoscape`](http://rcytoscape.systemsbiology.net/versions/current/index.html) `Bioconductor` package, and requires `Cytoscape` v2.8, and the `CytoscapeRPC` plugin. There is currently no way to do this with `Cytoscape` v3.0, however given that a `REST` api is being introduced to `Cytoscape`, it should be possible in the future (if we can persuade Paul Shannon to write a new `R` package).
+
 
 ```r
 library(graph)
@@ -456,27 +458,8 @@ Now that we've added all the nitty gritty details to our network, we can pass it
 
 ```r
 library(RCytoscape)
-```
-
-```
-## Loading required package: XMLRPC
-## Note: the specification for S3 class "AsIs" in package 'XMLRPC' seems equivalent to one from package 'BiocGenerics': not turning on duplicate class definitions for this class.
-```
-
-```r
 cw <- new.CytoscapeWindow("metabolite similarity", graph = metabNetwork)
-```
-
-```
-## Error: Failed connect to localhost:9000; Connection refused
-```
-
-```r
 displayGraph(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'displayGraph': Error: object 'cw' not found
 ```
 
 
@@ -485,18 +468,7 @@ Not much to look at yet, we have to tell `Cytoscape` to layout the network.
 
 ```r
 setLayoutProperties(cw, "force-directed", list(edge_attribute = "weight"))
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'setLayoutProperties': Error: object 'cw' not found
-```
-
-```r
 layoutNetwork(cw, "force-directed")
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'layoutNetwork': Error: object 'cw' not found
 ```
 
 
@@ -510,18 +482,7 @@ Lets change the edge visuals based on the source. Maybe black for KEGG (biochemi
 ```r
 edgeColors <- c("#000000", "#999999")
 setEdgeColorRule(cw, "source", c("KEGG", "Tanimoto"), edgeColors, mode = "lookup")
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'setEdgeColorRule': Error: object 'cw' not found
-```
-
-```r
 redraw(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'redraw': Error: object 'cw' not found
 ```
 
 
@@ -537,18 +498,7 @@ We have metabolites that have changes either in the up or down direction. It wou
 ```r
 nodeColors <- c("#99FF00", "#FF9900")
 setNodeColorRule(cw, "direction", c("increase", "decrease"), nodeColors, mode = "lookup")
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'setNodeColorRule': Error: object 'cw' not found
-```
-
-```r
 redraw(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'redraw': Error: object 'cw' not found
 ```
 
 
@@ -559,18 +509,7 @@ Currently, we have to select a node to see it's metabolite name. We can use some
 
 ```r
 setNodeLabelRule(cw, "name")
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'setNodeLabelRule': Error: object 'cw' not found
-```
-
-```r
 redraw(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'redraw': Error: object 'cw' not found
 ```
 
 
@@ -583,34 +522,9 @@ We can select nodes based on particular properties in our original data. Such as
 ```r
 hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
 selectNodes(cw, hiFCNodes)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectNodes': Error: object 'cw' not found
-```
-
-```r
 selectFirstNeighborsOfSelectedNodes(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectFirstNeighborsOfSelectedNodes': Error: object 'cw' not found
-```
-
-```r
 hiFCNodesNeighbors <- getSelectedNodes(cw)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'getSelectedNodes': Error: object 'cw' not found
-```
-
-```r
 hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors, ]
-```
-
-```
-## Error: object 'hiFCNodesNeighbors' not found
 ```
 
 
@@ -676,34 +590,9 @@ allComms <- allComms[order(sapply(allComms, length), decreasing = T)]
 
 
 selectNodes(cw, allComms[[1]], preserve.current.selection = FALSE)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectNodes': Error: object 'cw' not found
-```
-
-```r
 selectNodes(cw, allComms[[2]], preserve.current.selection = FALSE)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectNodes': Error: object 'cw' not found
-```
-
-```r
 selectNodes(cw, allComms[[3]], preserve.current.selection = FALSE)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectNodes': Error: object 'cw' not found
-```
-
-```r
 selectNodes(cw, allComms[[4]], preserve.current.selection = FALSE)
-```
-
-```
-## Error: error in evaluating the argument 'obj' in selecting a method for function 'selectNodes': Error: object 'cw' not found
 ```
 
 
@@ -731,17 +620,26 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] igraph_0.7.1      RCytoscape_1.12.0 XMLRPC_0.3-0      graph_1.40.1     
-## [5] reshape2_1.4      ggplot2_0.9.3.1   knitr_1.5        
+## [1] igraph_0.7.1    graph_1.40.1    reshape2_1.4    ggplot2_0.9.3.1
+## [5] knitr_1.5      
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] BiocGenerics_0.8.0 colorspace_1.2-4   digest_0.6.4      
 ##  [4] evaluate_0.5.3     formatR_0.10       grid_3.0.3        
 ##  [7] gtable_0.1.2       labeling_0.2       MASS_7.3-32       
 ## [10] munsell_0.4.2      parallel_3.0.3     plyr_1.8.1        
-## [13] proto_0.3-10       Rcpp_0.11.1        RCurl_1.95-4.1    
-## [16] scales_0.2.4       stats4_3.0.3       stringr_0.6.2     
-## [19] tools_3.0.3        XML_3.98-1.1
+## [13] proto_0.3-10       Rcpp_0.11.1        scales_0.2.4      
+## [16] stats4_3.0.3       stringr_0.6.2      tools_3.0.3
+```
+
+
+
+```r
+purl("wg_visualization_ggplot_cytoscape_matplotlib.Rmd", quiet = TRUE)
+```
+
+```
+## [1] "wg_visualization_ggplot_cytoscape_matplotlib.R"
 ```
 
 

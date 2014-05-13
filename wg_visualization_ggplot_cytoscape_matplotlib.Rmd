@@ -353,3 +353,7 @@ selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
 sessionInfo()
 ```
 
+```{r}
+purl("wg_visualization_ggplot_cytoscape_matplotlib.Rmd", quiet=TRUE)
+```
+

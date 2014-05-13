@@ -196,6 +196,8 @@ Networks are very useful things in many fields, due to the fact that we can easi
 
 The network graph will be constructed in `R`, and visualized in `Cytoscape`. This gives us the flexibility to manipulate the graph easily in `R` and save groups of relevant nodes, with the visual richness and interactive flexibility of `Cytoscape`.
 
+This connection of `R` with `Cytoscape` uses the [`RCytoscape`](http://rcytoscape.systemsbiology.net/versions/current/index.html) `Bioconductor` package, and requires `Cytoscape` v2.8, and the `CytoscapeRPC` plugin. There is currently no way to do this with `Cytoscape` v3.0, however given that a `REST` api is being introduced to `Cytoscape`, it should be possible in the future (if we can persuade Paul Shannon to write a new `R` package).
+
 ```{r loadNetworkData}
 library(graph)
 nodeEdges <- read.table("biochemEdgeList.csv", header=T, sep=",", stringsAsFactors=FALSE)
@@ -252,7 +254,7 @@ for (useAttr in c("name", "direction", "sig.dir", "size.FC", "size.log.FC", "siz
 
 Now that we've added all the nitty gritty details to our network, we can pass it to Cytoscape and start doing some visualization.
 
-```{r loadCytoscape}
+```{r loadCytoscape, eval=FALSE}
 library(RCytoscape)
 cw <- new.CytoscapeWindow("metabolite similarity", graph=metabNetwork)
 displayGraph(cw)
@@ -260,7 +262,7 @@ displayGraph(cw)
 
 Not much to look at yet, we have to tell `Cytoscape` to layout the network.
 
-```{r}
+```{r, eval=FALSE}
 setLayoutProperties(cw, 'force-directed', list(edge_attribute='weight'))
 layoutNetwork(cw, 'force-directed')
 ```
@@ -271,7 +273,7 @@ As it stands, we can't get a whole lot of information yet from this network. But
 
 Lets change the edge visuals based on the source. Maybe black for KEGG (biochemical) and gray for Tanimoto (similarity)?
 
-```{r changeEdgeColors}
+```{r changeEdgeColors, eval=FALSE}
 edgeColors <- c('#000000', '#999999')
 setEdgeColorRule(cw, 'source', c('KEGG', 'Tanimoto'), edgeColors, mode='lookup')
 redraw(cw)
@@ -285,7 +287,7 @@ So now we can see that most of the edges are from the similarity measure.
 
 We have metabolites that have changes either in the up or down direction. It would be nice to at a glance see which is which.
 
-```{r changeNodeColors}
+```{r changeNodeColors, eval=FALSE}
 nodeColors <- c('#99FF00', '#FF9900')
 setNodeColorRule(cw, 'direction', c('increase', 'decrease'), nodeColors, mode='lookup')
 redraw(cw)
@@ -295,7 +297,7 @@ redraw(cw)
 
 Currently, we have to select a node to see it's metabolite name. We can use something else as the display label.
 
-```{r changeLabel}
+```{r changeLabel, eval=FALSE}
 setNodeLabelRule(cw, 'name')
 redraw(cw)
 ```
@@ -305,7 +307,7 @@ redraw(cw)
 
 We can select nodes based on particular properties in our original data. Such as those nodes that had large fold-changes, and their immediate neighbors:
 
-```{r selectHiFC}
+```{r selectHiFC, eval=FALSE}
 hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
 selectNodes(cw, hiFCNodes)
 selectFirstNeighborsOfSelectedNodes(cw)
@@ -333,7 +335,7 @@ eb
 
 What does this get us? A set of communities, with each node assigned to each community. We can examine them in `Cytoscape` by doing:
 
-```{r examineCommunities}
+```{r examineCommunities, eval=FALSE}
 allComms <- split(eb$names, eb$membership)
 allComms <- allComms[order(sapply(allComms, length), decreasing=T)]
 

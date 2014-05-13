@@ -343,3 +343,11 @@ selectNodes(cw, allComms[[2]], preserve.current.selection=FALSE)
 selectNodes(cw, allComms[[3]], preserve.current.selection=FALSE)
 selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
 ```
+
+
+## System Information
+
+```{r}
+sessionInfo()
+```
+

@@ -156,9 +156,17 @@ write.table(metabData, file="metabolomics_reshapedData.csv", sep=",", row.names=
 ```
 
 
-Let's summarize the values for each type of sample.
+Let's summarize the values for each type of sample. We will stop at a value of **5000** because 
 
-```{r viewData}
+```{r viewHistograms}
+ggplot(metabData, aes(x=value, fill=treat)) + geom_bar(alpha=0.8, position="identity") + facet_grid(Species ~ .) + xlim(0, 5000)
+
+ggplot(metabData, aes(x=value, fill=Species)) + geom_bar(alpha=0.8, position="identity") + facet_grid(treat ~ .) + xlim(0, 5000)
+```
+
+As an alternative to histograms, `ggplot` provides smoothed density estimates that can nicely capture the **shape** of a distribution.
+
+```{r viewDensity}
 ggplot(metabData, aes(x=value, fill=treat)) + geom_density(alpha=0.8) + facet_grid(Species ~ ., scales="free_y") + xlim(0, 5000)
 ggplot(metabData, aes(x=value, fill=Species)) + geom_density(alpha=0.8) + facet_grid(treat ~ ., scales="free_y") + xlim(0, 5000)
 ```

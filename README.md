@@ -12,6 +12,8 @@ To get this presentation and data, clone the git repo to a local machine.
 
 The html version of the `R`, `ggplot` and `Cytoscape` demo can be found in the repo. It can also be viewed online [here](https://rmflight.github.io/wg_vis_presentation/wg_visualization_ggplot_cytoscape_matplotlib.html).
 
+Please note that some of the graphics currently do not show correctly in the HTML version, however when running the code locally it should work. As well, none of the `Cytoscape` graphs are shown, this will hopefully be corrected in future versions.
+
 ## Python & matplotlib
 
 The `ipython` notebook covering `matplotlib` can be viewed [here](http://nbviewer.ipython.org/github/rmflight/wg_vis_presentation/blob/master/matplotlib%20demo.ipynb).

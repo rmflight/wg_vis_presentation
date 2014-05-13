@@ -17,3 +17,7 @@ Please note that some of the graphics currently do not show correctly in the HTM
 ## Python & matplotlib
 
 The `ipython` notebook covering `matplotlib` can be viewed [here](http://nbviewer.ipython.org/github/rmflight/wg_vis_presentation/blob/master/matplotlib%20demo.ipynb).
+
+## License
+
+All content is licensed as CC0, I waive any copyright I might have to this material. However, if you use it, be a good netizen and reference where you obtained it.

@@ -1,3 +1,9 @@
+```{r setup, echo=FALSE}
+library(knitr)
+opts_chunk$set(dev='CairoPNG')
+```
+
+
 # A Review of R, Cytoscape and Python Integration for Data Visualization and Exploration
 
 [`R`](http://cran.r-project.org/) is a popular data analysis and visualization environment, with a large number of user contributed packages, and the ability for interested individuals to easily contribute their own packages. 

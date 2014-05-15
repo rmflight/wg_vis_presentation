@@ -1,3 +1,7 @@
+
+
+
+
 # A Review of R, Cytoscape and Python Integration for Data Visualization and Exploration
 
 [`R`](http://cran.r-project.org/) is a popular data analysis and visualization environment, with a large number of user contributed packages, and the ability for interested individuals to easily contribute their own packages. 
@@ -653,12 +657,13 @@ sessionInfo()
 ## [5] knitr_1.5      
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] BiocGenerics_0.8.0 colorspace_1.2-4   digest_0.6.4      
-##  [4] evaluate_0.5.3     formatR_0.10       grid_3.0.3        
-##  [7] gtable_0.1.2       labeling_0.2       MASS_7.3-32       
-## [10] munsell_0.4.2      parallel_3.0.3     plyr_1.8.1        
-## [13] proto_0.3-10       Rcpp_0.11.1        scales_0.2.4      
-## [16] stats4_3.0.3       stringr_0.6.2      tools_3.0.3
+##  [1] BiocGenerics_0.8.0 Cairo_1.5-5        colorspace_1.2-4  
+##  [4] digest_0.6.4       evaluate_0.5.3     formatR_0.10      
+##  [7] grid_3.0.3         gtable_0.1.2       labeling_0.2      
+## [10] MASS_7.3-32        munsell_0.4.2      parallel_3.0.3    
+## [13] plyr_1.8.1         proto_0.3-10       Rcpp_0.11.1       
+## [16] scales_0.2.4       stats4_3.0.3       stringr_0.6.2     
+## [19] tools_3.0.3
 ```
 
 

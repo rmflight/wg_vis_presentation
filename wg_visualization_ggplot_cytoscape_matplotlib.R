@@ -2,6 +2,28 @@
 library(knitr)
 opts_chunk$set(dev='CairoPNG')
 
+saveCytoscapeSVG <- function(before, options, envir){
+  heightStr <- ""
+  widthStr <- ""
+  if (!is.null(options$out.height)){
+    heightStr <- paste('height="', options$out.height, '"', sep="")
+  }
+  if (!is.null(options$out.width)){
+    widthStr <- paste('width="', options$out.width, '"', sep="")
+  }
+  if (!before){
+    if (exists("cw")){
+      svgFile <- paste(options$label, ".svg", sep="")
+      imgURL <- paste("figure", svgFile, sep="/")
+      savePath <- file.path(getwd(), "figure", svgFile)
+      saveImage(cw, savePath, "svg")
+      paste('<img src="', imgURL, '" title="', options$label, '" alt="', options$label, '" ', heightStr, ' ', widthStr, '/>', sep="")
+    }
+  }
+}
+
+knit_hooks$set(saveCytoscape=saveCytoscapeSVG)
+
 
 ## ----scatter2------------------------------------------------------------
 var1 <- rnorm(100)
@@ -173,40 +195,43 @@ for (useAttr in c("name", "direction", "sig.dir", "size.FC", "size.log.FC", "siz
 }
 
 
-## ----loadCytoscape, eval=FALSE-------------------------------------------
-## library(RCytoscape)
-## cw <- new.CytoscapeWindow("metabolite similarity", graph=metabNetwork)
-## displayGraph(cw)
+## ----loadCytoscape, saveCytoscape=TRUE, out.width="800px"----------------
+library(RCytoscape)
+cw <- new.CytoscapeWindow("metabolite similarity", graph=metabNetwork)
+displayGraph(cw)
 
 
-## ----, eval=FALSE--------------------------------------------------------
-## setLayoutProperties(cw, 'force-directed', list(edge_attribute='weight'))
-## layoutNetwork(cw, 'force-directed')
+## ----layoutNetwork, saveCytoscape=TRUE, out.width="800px"----------------
+setLayoutProperties(cw, 'force-directed', list(edge_attribute='weight'))
+layoutNetwork(cw, 'force-directed')
 
 
-## ----changeEdgeColors, eval=FALSE----------------------------------------
-## edgeColors <- c('#000000', '#999999')
-## setEdgeColorRule(cw, 'source', c('KEGG', 'Tanimoto'), edgeColors, mode='lookup')
-## redraw(cw)
+## ----changeEdgeColors, saveCytoscape=TRUE, out.width="800px"-------------
+edgeColors <- c('#000000', '#999999')
+setEdgeColorRule(cw, 'source', c('KEGG', 'Tanimoto'), edgeColors, mode='lookup')
+redraw(cw)
 
 
-## ----changeNodeColors, eval=FALSE----------------------------------------
-## nodeColors <- c('#99FF00', '#FF9900')
-## setNodeColorRule(cw, 'direction', c('increase', 'decrease'), nodeColors, mode='lookup')
-## redraw(cw)
+## ----changeNodeColors, saveCytoscape=TRUE, out.width="800px"-------------
+nodeColors <- c('#99FF00', '#FF9900')
+setNodeColorRule(cw, 'direction', c('increase', 'decrease'), nodeColors, mode='lookup')
+redraw(cw)
 
 
-## ----changeLabel, eval=FALSE---------------------------------------------
-## setNodeLabelRule(cw, 'name')
-## redraw(cw)
+## ----changeLabel, saveCytoscape=TRUE, out.width="800px"------------------
+setNodeLabelRule(cw, 'name')
+redraw(cw)
 
 
-## ----selectHiFC, eval=FALSE----------------------------------------------
-## hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
-## selectNodes(cw, hiFCNodes)
-## selectFirstNeighborsOfSelectedNodes(cw)
-## hiFCNodesNeighbors <- getSelectedNodes(cw)
-## hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors,]
+## ----selectHiFC, saveCytoscape=TRUE, out.width="800px"-------------------
+hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
+selectNodes(cw, hiFCNodes)
+
+
+## ----selectHiFCNeighbors, saveCytoscape=TRUE, out.width="800px"----------
+selectFirstNeighborsOfSelectedNodes(cw)
+hiFCNodesNeighbors <- getSelectedNodes(cw)
+hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors,]
 
 
 ## ----graphNeighborhood---------------------------------------------------
@@ -223,15 +248,29 @@ eb <- edge.betweenness.community(igNetwork)
 eb
 
 
-## ----examineCommunities, eval=FALSE--------------------------------------
-## allComms <- split(eb$names, eb$membership)
-## allComms <- allComms[order(sapply(allComms, length), decreasing=T)]
-## 
-## 
-## selectNodes(cw, allComms[[1]], preserve.current.selection=FALSE)
-## selectNodes(cw, allComms[[2]], preserve.current.selection=FALSE)
-## selectNodes(cw, allComms[[3]], preserve.current.selection=FALSE)
-## selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
+## ----examineCommunities--------------------------------------------------
+allComms <- split(eb$names, eb$membership)
+allComms <- allComms[order(sapply(allComms, length), decreasing=T)]
+
+
+## ----community1, saveCytoscape=TRUE, out.width="800px"-------------------
+selectNodes(cw, allComms[[1]], preserve.current.selection=FALSE)
+
+
+## ----community2, saveCytoscape=TRUE, out.width="800px"-------------------
+selectNodes(cw, allComms[[2]], preserve.current.selection=FALSE)
+
+
+## ----community3, saveCytoscape=TRUE, out.width="800px"-------------------
+selectNodes(cw, allComms[[3]], preserve.current.selection=FALSE)
+
+
+## ----community4, saveCytoscape=TRUE, out.width="800px"-------------------
+selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
+
+
+## ------------------------------------------------------------------------
+deleteWindow(cw)
 
 
 ## ------------------------------------------------------------------------

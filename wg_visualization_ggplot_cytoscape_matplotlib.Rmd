@@ -290,7 +290,7 @@ for (useAttr in c("name", "direction", "sig.dir", "size.FC", "size.log.FC", "siz
 
 Now that we've added all the nitty gritty details to our network, we can pass it to Cytoscape and start doing some visualization.
 
-```{r loadCytoscape, eval=FALSE}
+```{r loadCytoscape, saveCytoscape=TRUE, out.width="800px"}
 library(RCytoscape)
 cw <- new.CytoscapeWindow("metabolite similarity", graph=metabNetwork)
 displayGraph(cw)
@@ -298,7 +298,7 @@ displayGraph(cw)
 
 Not much to look at yet, we have to tell `Cytoscape` to layout the network.
 
-```{r, eval=FALSE}
+```{r layoutNetwork, saveCytoscape=TRUE, out.width="800px"}
 setLayoutProperties(cw, 'force-directed', list(edge_attribute='weight'))
 layoutNetwork(cw, 'force-directed')
 ```
@@ -309,7 +309,7 @@ As it stands, we can't get a whole lot of information yet from this network. But
 
 Lets change the edge visuals based on the source. Maybe black for KEGG (biochemical) and gray for Tanimoto (similarity)?
 
-```{r changeEdgeColors, eval=FALSE}
+```{r changeEdgeColors, saveCytoscape=TRUE, out.width="800px"}
 edgeColors <- c('#000000', '#999999')
 setEdgeColorRule(cw, 'source', c('KEGG', 'Tanimoto'), edgeColors, mode='lookup')
 redraw(cw)
@@ -323,7 +323,7 @@ So now we can see that most of the edges are from the similarity measure.
 
 We have metabolites that have changes either in the up or down direction. It would be nice to at a glance see which is which.
 
-```{r changeNodeColors, eval=FALSE}
+```{r changeNodeColors, saveCytoscape=TRUE, out.width="800px"}
 nodeColors <- c('#99FF00', '#FF9900')
 setNodeColorRule(cw, 'direction', c('increase', 'decrease'), nodeColors, mode='lookup')
 redraw(cw)
@@ -333,7 +333,7 @@ redraw(cw)
 
 Currently, we have to select a node to see it's metabolite name. We can use something else as the display label.
 
-```{r changeLabel, eval=FALSE}
+```{r changeLabel, saveCytoscape=TRUE, out.width="800px"}
 setNodeLabelRule(cw, 'name')
 redraw(cw)
 ```
@@ -343,9 +343,12 @@ redraw(cw)
 
 We can select nodes based on particular properties in our original data. Such as those nodes that had large fold-changes, and their immediate neighbors:
 
-```{r selectHiFC, eval=FALSE}
+```{r selectHiFC, saveCytoscape=TRUE, out.width="800px"}
 hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
 selectNodes(cw, hiFCNodes)
+```
+
+```{r selectHiFCNeighbors, saveCytoscape=TRUE, out.width="800px"}
 selectFirstNeighborsOfSelectedNodes(cw)
 hiFCNodesNeighbors <- getSelectedNodes(cw)
 hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors,]
@@ -371,15 +374,29 @@ eb
 
 What does this get us? A set of communities, with each node assigned to each community. We can examine them in `Cytoscape` by doing:
 
-```{r examineCommunities, eval=FALSE}
+```{r examineCommunities}
 allComms <- split(eb$names, eb$membership)
 allComms <- allComms[order(sapply(allComms, length), decreasing=T)]
+```
 
-
+```{r community1, saveCytoscape=TRUE, out.width="800px"}
 selectNodes(cw, allComms[[1]], preserve.current.selection=FALSE)
+```
+
+```{r community2, saveCytoscape=TRUE, out.width="800px"}
 selectNodes(cw, allComms[[2]], preserve.current.selection=FALSE)
+```
+
+```{r community3, saveCytoscape=TRUE, out.width="800px"}
 selectNodes(cw, allComms[[3]], preserve.current.selection=FALSE)
+```
+
+```{r community4, saveCytoscape=TRUE, out.width="800px"}
 selectNodes(cw, allComms[[4]], preserve.current.selection=FALSE)
+```
+
+```{r}
+deleteWindow(cw)
 ```
 
 

@@ -491,9 +491,33 @@ Now that we've added all the nitty gritty details to our network, we can pass it
 
 ```r
 library(RCytoscape)
+```
+
+```
+## Loading required package: XMLRPC
+## Note: the specification for S3 class "AsIs" in package 'XMLRPC' seems equivalent to one from package 'BiocGenerics': not turning on duplicate class definitions for this class.
+```
+
+```r
 cw <- new.CytoscapeWindow("metabolite similarity", graph = metabNetwork)
 displayGraph(cw)
 ```
+
+```
+## [1] "name"
+## [1] "direction"
+## [1] "sig.dir"
+## [1] "size.FC"
+## [1] "size.log.FC"
+## [1] "size.LV"
+## [1] "log.mean.Pumpkin"
+## [1] "log.mean.Tomatillo"
+## [1] "label"
+## [1] "weight"
+## [1] "source"
+```
+
+<img src="figure/loadCytoscape.svg" title="loadCytoscape" alt="loadCytoscape"  width="800px"/>
 
 
 Not much to look at yet, we have to tell `Cytoscape` to layout the network.
@@ -503,6 +527,8 @@ Not much to look at yet, we have to tell `Cytoscape` to layout the network.
 setLayoutProperties(cw, "force-directed", list(edge_attribute = "weight"))
 layoutNetwork(cw, "force-directed")
 ```
+
+<img src="figure/layoutNetwork.svg" title="layoutNetwork" alt="layoutNetwork"  width="800px"/>
 
 
 As it stands, we can't get a whole lot of information yet from this network. But lets start adding some visual properties to it and see what happens.
@@ -517,6 +543,8 @@ edgeColors <- c("#000000", "#999999")
 setEdgeColorRule(cw, "source", c("KEGG", "Tanimoto"), edgeColors, mode = "lookup")
 redraw(cw)
 ```
+
+<img src="figure/changeEdgeColors.svg" title="changeEdgeColors" alt="changeEdgeColors"  width="800px"/>
 
 
 So now we can see that most of the edges are from the similarity measure.
@@ -534,6 +562,8 @@ setNodeColorRule(cw, "direction", c("increase", "decrease"), nodeColors, mode = 
 redraw(cw)
 ```
 
+<img src="figure/changeNodeColors.svg" title="changeNodeColors" alt="changeNodeColors"  width="800px"/>
+
 
 ### Display Labels
 
@@ -542,8 +572,17 @@ Currently, we have to select a node to see it's metabolite name. We can use some
 
 ```r
 setNodeLabelRule(cw, "name")
+```
+
+```
+## [1] TRUE
+```
+
+```r
 redraw(cw)
 ```
+
+<img src="figure/changeLabel.svg" title="changeLabel" alt="changeLabel"  width="800px"/>
 
 
 
@@ -555,10 +594,19 @@ We can select nodes based on particular properties in our original data. Such as
 ```r
 hiFCNodes <- nodeData$Index[abs(nodeData$size.log.FC) >= 1.2]
 selectNodes(cw, hiFCNodes)
+```
+
+<img src="figure/selectHiFC.svg" title="selectHiFC" alt="selectHiFC"  width="800px"/>
+
+
+
+```r
 selectFirstNeighborsOfSelectedNodes(cw)
 hiFCNodesNeighbors <- getSelectedNodes(cw)
 hiFCNodesNeighborsData <- nodeData[nodeData$Index %in% hiFCNodesNeighbors, ]
 ```
+
+<img src="figure/selectHiFCNeighbors.svg" title="selectHiFCNeighbors" alt="selectHiFCNeighbors"  width="800px"/>
 
 
 ## Graph Properties
@@ -620,12 +668,48 @@ What does this get us? A set of communities, with each node assigned to each com
 ```r
 allComms <- split(eb$names, eb$membership)
 allComms <- allComms[order(sapply(allComms, length), decreasing = T)]
+```
 
 
+
+```r
 selectNodes(cw, allComms[[1]], preserve.current.selection = FALSE)
+```
+
+<img src="figure/community1.svg" title="community1" alt="community1"  width="800px"/>
+
+
+
+```r
 selectNodes(cw, allComms[[2]], preserve.current.selection = FALSE)
+```
+
+<img src="figure/community2.svg" title="community2" alt="community2"  width="800px"/>
+
+
+
+```r
 selectNodes(cw, allComms[[3]], preserve.current.selection = FALSE)
+```
+
+<img src="figure/community3.svg" title="community3" alt="community3"  width="800px"/>
+
+
+
+```r
 selectNodes(cw, allComms[[4]], preserve.current.selection = FALSE)
+```
+
+<img src="figure/community4.svg" title="community4" alt="community4"  width="800px"/>
+
+
+
+```r
+deleteWindow(cw)
+```
+
+```
+## [1] TRUE
 ```
 
 
@@ -653,8 +737,8 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] igraph_0.7.1    graph_1.40.1    reshape2_1.4    ggplot2_0.9.3.1
-## [5] knitr_1.5      
+## [1] igraph_0.7.1      RCytoscape_1.12.0 XMLRPC_0.3-0      graph_1.40.1     
+## [5] reshape2_1.4      ggplot2_0.9.3.1   knitr_1.5        
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] BiocGenerics_0.8.0 Cairo_1.5-5        colorspace_1.2-4  
@@ -662,8 +746,8 @@ sessionInfo()
 ##  [7] grid_3.0.3         gtable_0.1.2       labeling_0.2      
 ## [10] MASS_7.3-32        munsell_0.4.2      parallel_3.0.3    
 ## [13] plyr_1.8.1         proto_0.3-10       Rcpp_0.11.1       
-## [16] scales_0.2.4       stats4_3.0.3       stringr_0.6.2     
-## [19] tools_3.0.3
+## [16] RCurl_1.95-4.1     scales_0.2.4       stats4_3.0.3      
+## [19] stringr_0.6.2      tools_3.0.3        XML_3.98-1.1
 ```
 
 

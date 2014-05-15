@@ -1,6 +1,28 @@
 ```{r setup, echo=FALSE}
 library(knitr)
 opts_chunk$set(dev='CairoPNG')
+
+saveCytoscapeSVG <- function(before, options, envir){
+  heightStr <- ""
+  widthStr <- ""
+  if (!is.null(options$out.height)){
+    heightStr <- paste('height="', options$out.height, '"', sep="")
+  }
+  if (!is.null(options$out.width)){
+    widthStr <- paste('width="', options$out.width, '"', sep="")
+  }
+  if (!before){
+    if (exists("cw")){
+      svgFile <- paste(options$label, ".svg", sep="")
+      imgURL <- paste("figure", svgFile, sep="/")
+      savePath <- file.path(getwd(), "figure", svgFile)
+      saveImage(cw, savePath, "svg")
+      paste('<img src="', imgURL, '" title="', options$label, '" alt="', options$label, '" ', heightStr, ' ', widthStr, '/>', sep="")
+    }
+  }
+}
+
+knit_hooks$set(saveCytoscape=saveCytoscapeSVG)
 ```
 
 

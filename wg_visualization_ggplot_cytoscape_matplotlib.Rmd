@@ -429,7 +429,17 @@ saveImage(cw, file.name=file.path(getwd(), "testNetwork.svg"), image.type="svg")
 
 ### R
 
-* [cran]()
+* [cran](http://cran.r-project.org)
+* [R for Cats](http://rforcats.net)
+* [Hadley Wickhams Advanced R Programming](http://adv-r.had.co.nz/)
+
+### ggplot
+
+* [Official ggplot2 documentation](http://docs.ggplot2.org/current/)
+* [Noam Ross's ggplot2 tutorial](http://www.noamross.net/blog/2012/10/5/ggplot-introduction.html)
+* [Stackoverflow questions on ggplot2](http://stackoverflow.com/questions/tagged/ggplot2)
+
+### Cytoscape 
 
 ## System Information
 

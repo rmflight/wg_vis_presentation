@@ -38,7 +38,7 @@ knit_hooks$set(saveCytoscape=saveCytoscapeSVG)
 
 There are many tools people can use to interact with their data, with Microsoft Excel (and other spreadsheet packages) being very popular. However, the number of different ways that data can be easily plotted or manipulated is very limiting in spreadsheet packages. Other commercial visualization packages such as Tableau and Spotfire are more powerful than spreadsheet software, and enable greater control, but **reproducing** a plot later can be difficult if one does not record the exact set of options and tick boxes selected in producing a visualization.
 
-I **believe** that scripting languages such as `R` and `Python` that allow rather easy data manipulation and visualization provide the best of both worlds.
+I **believe** that scripting languages such as `R` and `Python` that allow rather easy data manipulation and visualization provide the best of both worlds. For the `Python` section of this, please go [here](http://nbviewer.ipython.org/github/rmflight/wg_vis_presentation/blob/master/matplotlib%20demo.ipynb)
 
 ## Why R, ggplot2
 

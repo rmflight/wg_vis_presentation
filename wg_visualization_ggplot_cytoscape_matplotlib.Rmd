@@ -34,6 +34,8 @@ knit_hooks$set(saveCytoscape=saveCytoscapeSVG)
 
 [`Python`](python.org) is an alternative popular data analysis environment.
 
+All of the code and data used is available [on github](https://github.com/rmflight/wg_vis_presentation).
+
 ## Why Script Data Visualization and Exploration??
 
 There are many tools people can use to interact with their data, with Microsoft Excel (and other spreadsheet packages) being very popular. However, the number of different ways that data can be easily plotted or manipulated is very limiting in spreadsheet packages. Other commercial visualization packages such as Tableau and Spotfire are more powerful than spreadsheet software, and enable greater control, but **reproducing** a plot later can be difficult if one does not record the exact set of options and tick boxes selected in producing a visualization.

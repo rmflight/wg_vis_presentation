@@ -274,6 +274,20 @@ deleteWindow(cw)
 
 
 ## ------------------------------------------------------------------------
+library(Cairo)
+
+
+## ----, eval=FALSE--------------------------------------------------------
+## CairoPNG(file="testPNG.png")
+## plot(var1, var2)
+## dev.off()
+
+
+## ----saveCytoscape, eval=FALSE-------------------------------------------
+## saveImage(cw, file.name=file.path(getwd(), "testNetwork.svg"), image.type="svg")
+
+
+## ------------------------------------------------------------------------
 sessionInfo()
 
 
